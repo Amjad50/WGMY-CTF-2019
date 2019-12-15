@@ -1,0 +1,322 @@
+
+readline user_input
+createVector input_vector
+copyStringToVector input_vector user_input
+storeLengthOfVector input_vector input_length
+
+if input_length != 38
+   exit 0
+done_if
+
+assignNumber tmp_hash 0x0
+assignNumber counter 0
+
+while counter < input_length
+    assignNumber tmp_c counter
+    mod tmp_c 32
+    vectorAtIndexCopy input_vector counter current_char
+    leftShift current_char tmp_c
+    xor tmp_hash current_char
+    increment counter
+done_while
+
+if tmp_hash != 0xb5973a46
+   exit 0
+done_if
+
+assignNumber tmp_var1 0x61
+xor tmp_var1 0x0c
+vectorAtIndexCopy input_vector 2 current_char
+if tmp_var1 != current_char
+    exit 0
+done_if
+
+assignNumber tmp_var1 0x6c
+xor tmp_var1 0x0b
+vectorAtIndexCopy input_vector 1 current_char
+if tmp_var1 != current_char
+    exit 0
+done_if
+
+assignNumber tmp_var1 0x67
+xor tmp_var1 0x1e
+vectorAtIndexCopy input_vector 3 current_char
+if tmp_var1  != current_char
+    exit 0
+done_if
+
+assignNumber tmp_var1 0x28
+xor tmp_var1 0x55
+vectorAtIndexCopy input_vector 37 current_char
+if tmp_var1  != current_char
+    exit 0
+done_if
+
+assignNumber tmp_var1 0x66
+xor tmp_var1 0x11
+vectorAtIndexCopy input_vector 0 current_char
+if tmp_var1  != current_char
+    exit 0
+done_if
+
+assignNumber tmp_var1 0x3a
+xor tmp_var1 0x41
+vectorAtIndexCopy input_vector 4 current_char
+if tmp_var1  != current_char
+    exit 0
+done_if
+
+# we know the flag is 38 in length and contains
+# wgmy{*}
+
+createVector input_middle_v
+assignNumber counter 5
+while counter < 21
+    vectorAtIndexCopy input_vector counter current_char
+    vectorPushBack input_middle_v current_char
+    increment counter
+done_while
+
+vectorAtIndexCopy input_vector 3 seed_tmp
+vectorAtIndexCopy input_vector 1 current_char
+leftShift current_char 16
+xor seed_tmp current_char
+
+vectorAtIndexCopy input_vector 0 current_char
+leftShift current_char 24
+xor seed_tmp current_char
+vectorAtIndexCopy input_vector 2 current_char
+leftShift current_char 8
+xor seed_tmp current_char
+
+randomSeed seed_tmp
+
+assignNumber counter_2 0
+while counter_2 < 125
+    assignNumber tmp_2 0
+    while tmp_2 < 16
+        createVector random_vector
+        randomPushRandomSplit4 random_vector
+        vectorAtIndexCopy input_middle_v tmp_2 current_char_2
+        vectorAtIndexCopy random_vector 3 random_num
+        xor current_char_2 random_num
+        vectorReplaceAtIndex input_middle_v tmp_2 current_char_2
+        increment tmp_2
+    done_while
+    assignNumber tmp_2 1
+    while tmp_2 < 16
+        assignNumber tmp_3 tmp_2
+        subtract tmp_3 1
+        vectorAtIndexCopy input_middle_v tmp_2 current_char_2
+        vectorAtIndexCopy input_middle_v tmp_3 char_before_cur
+        xor current_char_2 char_before_cur
+        vectorReplaceAtIndex input_middle_v tmp_2 current_char_2
+        increment tmp_2
+    done_while
+    increment counter_2
+done_while
+
+createVector idk_vector
+vectorPushBack idk_vector 0xa0
+vectorPushBack idk_vector 0x0b
+vectorPushBack idk_vector 0x77
+vectorPushBack idk_vector 0xf1
+vectorPushBack idk_vector 0xb2
+vectorPushBack idk_vector 0x4b
+vectorPushBack idk_vector 0x6e
+vectorPushBack idk_vector 0x63
+vectorPushBack idk_vector 0xef
+vectorPushBack idk_vector 0xfd
+vectorPushBack idk_vector 0xaa
+vectorPushBack idk_vector 0x8e
+vectorPushBack idk_vector 0xd9
+vectorPushBack idk_vector 0xce
+vectorPushBack idk_vector 0x50
+vectorPushBack idk_vector 0x9c
+assignNumber counter_4 0
+assignNumber tmp_2 0
+
+while tmp_2 < 16
+    vectorAtIndexCopy input_middle_v tmp_2 input_current_char
+    vectorAtIndexCopy idk_vector tmp_2 idk_current_char
+    if input_current_char == idk_current_char
+        increment counter_4
+    done_if
+    increment tmp_2
+done_while
+
+if counter_4  != 16
+    exit 0
+done_if
+
+# after reversing the whole process above
+# wgmy{10e3b9a7cb5a8839*}
+
+vectorAtIndexCopy input_vector 11 tmp_5
+vectorAtIndexCopy input_vector 26 tmp_6
+if tmp_5  != tmp_6
+    exit 0
+done_if
+
+vectorAtIndexCopy input_vector 35 tmp_5
+vectorAtIndexCopy input_vector 36 tmp_6
+xor tmp_5 tmp_6
+vectorAtIndexCopy input_vector 31 tmp_6
+xor tmp_5 tmp_6
+vectorAtIndexCopy input_vector 34 tmp_6
+xor tmp_5 tmp_6
+if tmp_5 != 1
+    exit 0
+done_if
+
+vectorAtIndexCopy input_vector 26 tmp_5
+vectorAtIndexCopy input_vector 36 tmp_6
+xor tmp_5 tmp_6
+vectorAtIndexCopy input_vector 35 tmp_6
+xor tmp_5 tmp_6
+vectorAtIndexCopy input_vector 21 tmp_6
+xor tmp_5 tmp_6
+if tmp_5  != 81
+    exit 0
+done_if
+
+vectorAtIndexCopy input_vector 31 tmp_5
+vectorAtIndexCopy input_vector 22 tmp_6
+xor tmp_5 tmp_6
+vectorAtIndexCopy input_vector 23 tmp_6
+xor tmp_5 tmp_6
+vectorAtIndexCopy input_vector 27 tmp_6
+xor tmp_5 tmp_6
+if tmp_5  != 85
+    exit 0
+done_if
+
+vectorAtIndexCopy input_vector 30 tmp_5
+vectorAtIndexCopy input_vector 25 tmp_6
+xor tmp_5 tmp_6
+vectorAtIndexCopy input_vector 22 tmp_6
+xor tmp_5 tmp_6
+vectorAtIndexCopy input_vector 34 tmp_6
+xor tmp_5 tmp_6
+if tmp_5  != 6
+    exit 0
+done_if
+
+vectorAtIndexCopy input_vector 21 tmp_5
+vectorAtIndexCopy input_vector 29 tmp_6
+xor tmp_5 tmp_6
+vectorAtIndexCopy input_vector 24 tmp_6
+xor tmp_5 tmp_6
+vectorAtIndexCopy input_vector 26 tmp_6
+xor tmp_5 tmp_6
+if tmp_5  != 7
+    exit 0
+done_if
+
+vectorAtIndexCopy input_vector 25 tmp_5
+vectorAtIndexCopy input_vector 23 tmp_6
+xor tmp_5 tmp_6
+vectorAtIndexCopy input_vector 36 tmp_6
+xor tmp_5 tmp_6
+if tmp_5  != 108
+    exit 0
+done_if
+
+vectorAtIndexCopy input_vector 36 tmp_5
+vectorAtIndexCopy input_vector 35 tmp_6
+xor tmp_5 tmp_6
+vectorAtIndexCopy input_vector 25 tmp_6
+xor tmp_5 tmp_6
+if tmp_5  != 51
+    exit 0
+done_if
+
+vectorAtIndexCopy input_vector 29 tmp_5
+vectorAtIndexCopy input_vector 32 tmp_6
+xor tmp_5 tmp_6
+vectorAtIndexCopy input_vector 33 tmp_6
+xor tmp_5 tmp_6
+vectorAtIndexCopy input_vector 21 tmp_6
+xor tmp_5 tmp_6
+if tmp_5  != 80
+    exit 0
+done_if
+
+vectorAtIndexCopy input_vector 25 tmp_5
+vectorAtIndexCopy input_vector 26 tmp_6
+xor tmp_5 tmp_6
+vectorAtIndexCopy input_vector 30 tmp_6
+xor tmp_5 tmp_6
+vectorAtIndexCopy input_vector 34 tmp_6
+xor tmp_5 tmp_6
+if tmp_5  != 6
+    exit 0
+done_if
+
+vectorAtIndexCopy input_vector 21 tmp_5
+vectorAtIndexCopy input_vector 24 tmp_6
+xor tmp_5 tmp_6
+vectorAtIndexCopy input_vector 34 tmp_6
+xor tmp_5 tmp_6
+if tmp_5  != 48
+    exit 0
+done_if
+
+vectorAtIndexCopy input_vector 29 tmp_5
+vectorAtIndexCopy input_vector 35 tmp_6
+xor tmp_5 tmp_6
+vectorAtIndexCopy input_vector 30 tmp_6
+xor tmp_5 tmp_6
+vectorAtIndexCopy input_vector 27 tmp_6
+xor tmp_5 tmp_6
+if tmp_5  != 11
+    exit 0
+done_if
+
+vectorAtIndexCopy input_vector 34 tmp_5
+vectorAtIndexCopy input_vector 32 tmp_6
+xor tmp_5 tmp_6
+vectorAtIndexCopy input_vector 23 tmp_6
+xor tmp_5 tmp_6
+vectorAtIndexCopy input_vector 30 tmp_6
+xor tmp_5 tmp_6
+if tmp_5  != 6
+    exit 0
+done_if
+
+vectorAtIndexCopy input_vector 33 tmp_5
+vectorAtIndexCopy input_vector 23 tmp_6
+xor tmp_5 tmp_6
+vectorAtIndexCopy input_vector 26 tmp_6
+xor tmp_5 tmp_6
+vectorAtIndexCopy input_vector 35 tmp_6
+xor tmp_5 tmp_6
+if tmp_5  != 95
+    exit 0
+done_if
+
+vectorAtIndexCopy input_vector 32 tmp_5
+vectorAtIndexCopy input_vector 33 tmp_6
+xor tmp_5 tmp_6
+vectorAtIndexCopy input_vector 30 tmp_6
+xor tmp_5 tmp_6
+if tmp_5  != 98
+    exit 0
+done_if
+
+vectorAtIndexCopy input_vector 27 tmp_5
+vectorAtIndexCopy input_vector 28 tmp_6
+xor tmp_5 tmp_6
+vectorAtIndexCopy input_vector 23 tmp_6
+xor tmp_5 tmp_6
+vectorAtIndexCopy input_vector 30 tmp_6
+xor tmp_5 tmp_6
+if tmp_5  != 2
+    exit 0
+done_if
+
+# using z3 to solve above
+# final flag: wgmy{10e3b9a7cb5a88391afb2a1c56c5ac98}
+# check the solve.py code
+
+exit 255
